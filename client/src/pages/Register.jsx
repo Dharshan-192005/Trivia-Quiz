@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../utils/api';
 import { motion } from 'framer-motion';
-import { UserPlus, Zap, CheckCircle2 } from 'lucide-react';
+import bgImage from '../assets/auth_bg.png';
 
 const Register = ({ onRegister }) => {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isReadonly, setIsReadonly] = useState(true);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -26,72 +27,29 @@ const Register = ({ onRegister }) => {
   };
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-base)' }}>
+    <div className="auth-container animate-fade-in">
       
-      {/* Left decorative panel (hidden on small viewports) */}
-      <div className="register-panel-left" style={{
-        flex: 1,
-        background: 'linear-gradient(135deg, #1e1b4b 0%, #0f111a 100%)',
-        borderRight: '1px solid var(--border)',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        padding: '4rem',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
-        {/* Glow effects */}
-        <div style={{ position: 'absolute', top: '-10%', left: '-10%', width: '350px', height: '350px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%)', filter: 'blur(50px)', borderRadius: '50%' }} />
-        
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: '480px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '3rem' }}>
-            <Zap color="var(--accent-primary)" fill="var(--accent-primary)" size={32} />
-            <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem', fontWeight: 800, background: 'linear-gradient(to right, var(--accent-primary), var(--accent-secondary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              TRIVIA X
-            </span>
-          </div>
-
-          <h2 style={{ fontSize: '2.75rem', fontWeight: 800, lineHeight: 1.2, marginBottom: '1.5rem', fontFamily: 'var(--font-display)' }}>
-            Join the Ultimate <span className="text-gradient">Intellectual Quest</span>
-          </h2>
-          <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '2.5rem' }}>
-            Create an account today and start tracking your cognitive capabilities against challengers worldwide.
+      {/* Left Sidebar */}
+      <div 
+        className="auth-sidebar"
+        style={{ backgroundImage: `url(${bgImage})` }}
+      >
+        <div className="auth-sidebar-content animate-slide-up delay-100">
+          <h1 style={{ color: 'white', background: 'none', WebkitTextFillColor: 'white', fontSize: '3.5rem', lineHeight: 1.1, marginBottom: '20px' }}>
+            Join Us<br />Today
+          </h1>
+          <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '1rem', lineHeight: 1.6 }}>
+            Start your journey with the MERN Trivia X platform. Expand your mind, track achievements, and compete with global brains in our beautiful retro-arcade interface.
           </p>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--text-secondary)' }}>
-              <CheckCircle2 size={18} color="var(--accent-secondary)" />
-              <span>Unlock all 6 custom achievement awards</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--text-secondary)' }}>
-              <CheckCircle2 size={18} color="var(--accent-secondary)" />
-              <span>Modify difficulty filters dynamically</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--text-secondary)' }}>
-              <CheckCircle2 size={18} color="var(--accent-secondary)" />
-              <span>Get automated progress milestones</span>
-            </div>
-          </div>
         </div>
       </div>
 
-      {/* Right form panel */}
-      <div style={{
-        flex: 1,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: '2rem'
-      }}>
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="glass-panel" 
-          style={{ padding: '3.5rem', width: '100%', maxWidth: '440px' }}
-        >
-          <div style={{ marginBottom: '2.5rem', textAlign: 'center' }}>
-            <h2 style={{ fontSize: '2rem', fontWeight: 800, fontFamily: 'var(--font-display)' }}>Create Account</h2>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '0.25rem' }}>Get started with your profile immediately.</p>
+      {/* Right Form Container */}
+      <div className="auth-form-container">
+        <div className="auth-form-wrapper animate-slide-up delay-200">
+          
+          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+            <h2 style={{ fontSize: '2rem', fontWeight: 800, color: '#0f172a' }}>Sign up</h2>
           </div>
 
           {error && (
@@ -109,49 +67,67 @@ const Register = ({ onRegister }) => {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <div>
-              <label className="label">Username</label>
+              <label className="label">
+                Username
+              </label>
               <input 
                 type="text" 
                 className="input-field" 
                 value={formData.username}
                 onChange={(e) => setFormData({...formData, username: e.target.value})}
-                required
+                required 
                 disabled={loading}
+                readOnly={isReadonly}
+                onFocus={() => setIsReadonly(false)}
               />
             </div>
+
             <div>
-              <label className="label">Password</label>
+              <label className="label">
+                Password
+              </label>
               <input 
                 type="password" 
                 className="input-field" 
                 value={formData.password}
                 onChange={(e) => setFormData({...formData, password: e.target.value})}
-                required
+                required 
                 disabled={loading}
+                readOnly={isReadonly}
+                onFocus={() => setIsReadonly(false)}
               />
             </div>
-            <button type="submit" className="btn btn-primary" style={{ padding: '1rem', width: '100%', marginTop: '0.5rem' }} disabled={loading}>
-              {loading ? 'Registering...' : (
-                <>
-                  <UserPlus size={18} /> Register
-                </>
-              )}
+
+            <button 
+              type="submit" 
+              className="btn-auth-submit"
+              disabled={loading}
+              style={{ marginTop: '8px' }}
+            >
+              {loading ? 'Registering...' : 'Create Account'}
             </button>
+
+            <div style={{ textAlign: 'center', marginTop: '16px', fontSize: '0.85rem', color: '#6b7280' }}>
+              Already have an account?{' '}
+              <Link 
+                to="/login" 
+                className="auth-link"
+              >
+                Sign in
+              </Link>
+            </div>
           </form>
-          
-          <p style={{ marginTop: '2rem', textAlign: 'center', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-            Already have an account? <Link to="/login" style={{ color: 'var(--accent-primary)', textDecoration: 'none', fontWeight: 600 }}>Sign In</Link>
-          </p>
-        </motion.div>
+
+          <div style={{ textAlign: 'center', marginTop: '40px', fontSize: '0.75rem', color: '#9ca3af' }}>
+            By creating an account you agree to our<br/>
+            <a href="#" style={{ color: '#6b7280', textDecoration: 'none' }} onClick={(e) => e.preventDefault()}>Terms of Service</a> and <a href="#" style={{ color: '#6b7280', textDecoration: 'none' }} onClick={(e) => e.preventDefault()}>Privacy Policy</a>
+          </div>
+
+        </div>
       </div>
 
-      <style>{`
-        @media (max-width: 900px) {
-          .register-panel-left { display: none !important; }
-        }
-      `}</style>
     </div>
   );
 };

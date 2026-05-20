@@ -12,7 +12,7 @@ const Settings = ({ user }) => {
     localStorage.getItem('trivia_pref_category') || '9'
   );
   const [difficulty, setDifficulty] = useState(
-    localStorage.getItem('trivia_pref_difficulty') || 'mixed'
+    localStorage.getItem('trivia_pref_difficulty') || 'medium'
   );
 
   const [saved, setSaved] = useState(false);
@@ -56,117 +56,127 @@ const Settings = ({ user }) => {
   };
 
   return (
-    <div className="page-container animate-fade-in" style={{ padding: '1rem', maxWidth: '800px' }}>
-      {/* Header */}
-      <div style={{ marginBottom: '2.5rem' }}>
-        <h1 style={{ fontSize: '2.5rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <SettingsIcon size={36} color="var(--accent-primary)" /> System Settings
-        </h1>
-        <p style={{ color: 'var(--text-secondary)', marginTop: '0.25rem' }}>Customize your gaming profile and quiz experience.</p>
-      </div>
+    <div
+      className="animate-fade-in"
+      style={{
+        padding: '2rem',
+        minHeight: '100vh',
+        background: 'linear-gradient(160deg, #f8fafc 0%, #eef2f7 50%, #f8fafc 100%)',
+      }}
+    >
+      <div className="page-container" style={{ maxWidth: '800px' }}>
+        {/* Header */}
+        <div style={{ marginBottom: '2.5rem' }}>
+          <h1 style={{ fontSize: '2.5rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
+            <SettingsIcon size={36} color="var(--accent-primary)" /> System Settings
+          </h1>
+          <p style={{ color: 'var(--text-secondary)', marginTop: '0.25rem', fontWeight: 500 }}>Customize your gaming profile and quiz experience.</p>
+        </div>
 
-      <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-        
-        {/* Profile Card Settings */}
-        <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <h2 style={{ fontSize: '1.35rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <User size={20} color="var(--accent-primary)" /> Profile Customization
-          </h2>
+        <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           
-          <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
-              <img 
-                src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${avatarSeed}`} 
-                alt="avatar preview" 
-                style={{ width: '90px', height: '90px', borderRadius: '50%', border: '3px solid var(--border)', background: 'var(--bg-base)' }}
-              />
-              <button 
-                type="button" 
-                onClick={rollAvatar}
-                className="btn btn-secondary" 
-                style={{ padding: '4px 10px', fontSize: '0.75rem', borderRadius: '6px' }}
-              >
-                Roll Avatar
-              </button>
-            </div>
+          {/* Profile Card Settings */}
+          <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', background: '#ffffff' }}>
+            <h2 style={{ fontSize: '1.35rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)', fontFamily: 'var(--font-display)', fontWeight: 800 }}>
+              <User size={20} color="var(--accent-primary)" /> Profile Customization
+            </h2>
             
-            <div style={{ flex: 1, minWidth: '250px' }}>
-              <label className="label">Challenger Username</label>
-              <input 
-                type="text" 
-                className="input-field" 
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+                <img 
+                  src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${avatarSeed}`} 
+                  alt="avatar preview" 
+                  style={{ width: '90px', height: '90px', borderRadius: '50%', border: '3px solid var(--border)', background: '#f8fafc' }}
+                />
+                <button 
+                  type="button" 
+                  onClick={rollAvatar}
+                  className="btn btn-secondary" 
+                  style={{ padding: '6px 12px', fontSize: '0.75rem', borderRadius: '8px' }}
+                >
+                  Roll Avatar
+                </button>
+              </div>
+              
+              <div style={{ flex: 1, minWidth: '250px' }}>
+                <label className="label" style={{ color: 'var(--text-secondary)', fontWeight: 700 }}>Challenger Username</label>
+                <input 
+                  type="text" 
+                  className="input-field" 
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Trivia Preferences */}
-        <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <h2 style={{ fontSize: '1.35rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Sliders size={20} color="var(--accent-secondary)" /> Trivia Preferences
-          </h2>
+          {/* Trivia Preferences */}
+          <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', background: '#ffffff' }}>
+            <h2 style={{ fontSize: '1.35rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)', fontFamily: 'var(--font-display)', fontWeight: 800 }}>
+              <Sliders size={20} color="var(--accent-secondary)" /> Trivia Preferences
+            </h2>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem' }}>
-            <div>
-              <label className="label">Default Category</label>
-              <select 
-                className="input-field" 
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                style={{ background: 'var(--bg-base)', border: '1px solid var(--border)', color: 'var(--text-primary)', padding: '0.875rem' }}
-              >
-                {categories.map((cat) => (
-                  <option key={cat.id} value={cat.id} style={{ background: 'var(--bg-surface)' }}>{cat.name}</option>
-                ))}
-              </select>
-            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem' }}>
+              <div>
+                <label className="label" style={{ color: 'var(--text-secondary)', fontWeight: 700 }}>Default Category</label>
+                <select 
+                  className="input-field" 
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  style={{ background: '#ffffff', color: 'var(--text-primary)' }}
+                >
+                  {categories.map((cat) => (
+                    <option key={cat.id} value={cat.id}>{cat.name}</option>
+                  ))}
+                </select>
+              </div>
 
-            <div>
-              <label className="label">Default Difficulty</label>
-              <select 
-                className="input-field" 
-                value={difficulty}
-                onChange={(e) => setDifficulty(e.target.value)}
-                style={{ background: 'var(--bg-base)', border: '1px solid var(--border)', color: 'var(--text-primary)', padding: '0.875rem' }}
-              >
-                <option value="mixed" style={{ background: 'var(--bg-surface)' }}>Mixed Difficulty</option>
-                <option value="easy" style={{ background: 'var(--bg-surface)' }}>Easy</option>
-                <option value="medium" style={{ background: 'var(--bg-surface)' }}>Medium</option>
-                <option value="hard" style={{ background: 'var(--bg-surface)' }}>Hard</option>
-              </select>
+              <div>
+                <label className="label" style={{ color: 'var(--text-secondary)', fontWeight: 700 }}>Default Difficulty</label>
+                <select 
+                  className="input-field" 
+                  value={difficulty}
+                  onChange={(e) => setDifficulty(e.target.value)}
+                  style={{ background: '#ffffff', color: 'var(--text-primary)' }}
+                >
+                  <option value="easy">Easy</option>
+                  <option value="medium">Medium</option>
+                  <option value="hard">Hard</option>
+                </select>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Save Button */}
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <button 
-            type="submit" 
-            className="btn btn-primary"
-            style={{ 
-              padding: '1rem 2rem', 
-              fontSize: '1rem',
-              background: saved ? 'var(--success)' : undefined,
-              boxShadow: saved ? '0 4px 12px rgba(16, 185, 129, 0.3)' : undefined
-            }}
-            disabled={saved}
-          >
-            {saved ? (
-              <>
-                <Check size={20} /> Settings Saved!
-              </>
-            ) : (
-              <>
-                <Save size={20} /> Save Changes
-              </>
-            )}
-          </button>
-        </div>
+          {/* Save Button */}
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <button 
+              type="submit" 
+              className="btn btn-primary"
+              style={{ 
+                padding: '1rem 2.25rem', 
+                fontSize: '1rem',
+                borderRadius: '14px',
+                background: saved ? 'var(--success)' : undefined,
+                borderBottomColor: saved ? '#047857' : undefined,
+                boxShadow: saved ? '0 4px 12px rgba(16, 185, 129, 0.3)' : undefined
+              }}
+              disabled={saved}
+            >
+              {saved ? (
+                <>
+                  <Check size={20} /> Settings Saved!
+                </>
+              ) : (
+                <>
+                  <Save size={20} /> Save Changes
+                </>
+              )}
+            </button>
+          </div>
 
-      </form>
+        </form>
+      </div>
     </div>
   );
 };
