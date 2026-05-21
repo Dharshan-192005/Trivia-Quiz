@@ -59,18 +59,19 @@ const auth = (req, res, next) => {
 
 // GET /api/quiz/generate
 router.get('/generate', auth, async (req, res) => {
-  const { category, difficulty } = req.query;
-  const categoryName = categoryNames[category] || 'General Knowledge';
+  const { category, difficulty, limit, topic } = req.query;
+  const limitNum = parseInt(limit) || 10;
   const selectedDifficulty = difficulty || 'medium';
+  const categoryName = topic ? topic : (categoryNames[category] || 'General Knowledge');
   
   const geminiKey = process.env.GEMINI_API_KEY;
 
   try {
-    console.log(`[Quiz] Attempting Gemini question generation for Category: ${categoryName}, Difficulty: ${selectedDifficulty}`);
+    console.log(`[Quiz] Attempting Gemini question generation for Category/Topic: ${categoryName}, Difficulty: ${selectedDifficulty}, Limit: ${limitNum}`);
     
     // Generate unique questions every time by passing a random seed and asking for unique sub-topics
     const randomSeed = Math.random().toString(36).substring(7);
-    const prompt = `Generate exactly 10 highly engaging multiple-choice trivia questions for the category '${categoryName}' and difficulty level '${selectedDifficulty}'.
+    const prompt = `Generate exactly ${limitNum} highly engaging multiple-choice trivia questions for the category/topic '${categoryName}' and difficulty level '${selectedDifficulty}'.
 To ensure absolute variety, choose a completely unpredictable set of diverse sub-topics. Incorporate random seed token: '${randomSeed}'.
 Each question must be a unique object containing:
 - 'question': a string representing the question text.
@@ -104,7 +105,7 @@ Respond with a strictly formatted JSON array containing exactly these properties
 
     // Validate that we got a valid array
     if (Array.isArray(parsedQuestions) && parsedQuestions.length > 0) {
-      console.log(`[Quiz] Successfully generated 10 dynamic questions via Gemini LLM!`);
+      console.log(`[Quiz] Successfully generated ${parsedQuestions.length} dynamic questions via Gemini LLM!`);
       return res.json(parsedQuestions);
     } else {
       throw new Error('Gemini did not return a valid questions array');
@@ -116,8 +117,9 @@ Respond with a strictly formatted JSON array containing exactly these properties
     try {
       // Map 'advanced' difficulty back to OpenTDB's 'hard' if needed
       const openTdbDiff = selectedDifficulty === 'advanced' ? 'hard' : selectedDifficulty;
+      const targetCategory = category || '9';
       
-      let url = `https://opentdb.com/api.php?amount=10&category=${category}&type=multiple`;
+      let url = `https://opentdb.com/api.php?amount=${limitNum}&category=${targetCategory}&type=multiple`;
       if (openTdbDiff !== 'mixed') {
         url += `&difficulty=${openTdbDiff}`;
       }
@@ -163,7 +165,8 @@ Respond with a strictly formatted JSON array containing exactly these properties
         { question: "Which year did World War II end?", correct: "1945", options: ["1943", "1944", "1945", "1946"], explanation: "World War II officially concluded with the signing of surrender documents in 1945." }
       ];
       
-      res.json(emergencyPool);
+      // Slice emergency pool to limitNum
+      res.json(emergencyPool.slice(0, limitNum));
     }
   }
 });

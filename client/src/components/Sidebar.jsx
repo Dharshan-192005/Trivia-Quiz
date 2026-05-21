@@ -23,9 +23,8 @@ const Sidebar = ({ user, onLogout }) => {
     <aside style={{
       width: '270px',
       height: '100vh',
-      background: 'var(--bg-surface)',
-      borderRight: '2px solid rgba(255, 255, 255, 0.05)',
-      boxShadow: '4px 0 20px rgba(0,0,0,0.2)',
+      background: '#0a0a0a',
+      borderRight: '1px solid rgba(255, 255, 255, 0.08)',
       display: 'flex',
       flexDirection: 'column',
       padding: '2rem 1.5rem 1.5rem 1.5rem',
@@ -36,31 +35,28 @@ const Sidebar = ({ user, onLogout }) => {
       {/* Brand Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '3rem', padding: '0 0.5rem' }}>
         <div style={{
-          background: 'linear-gradient(135deg, #a855f7, #06b6d4)',
+          background: '#ffffff',
           padding: '0.4rem',
           borderRadius: '12px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: '0 4px 10px rgba(136, 84, 192, 0.4)'
         }}>
-          <Zap color="white" fill="white" size={22} />
+          <Zap color="#000000" fill="#000000" size={22} />
         </div>
         <span style={{ 
           fontFamily: 'var(--font-display)', 
           fontSize: '1.6rem', 
           fontWeight: 900,
           letterSpacing: '-0.02em',
-          background: 'linear-gradient(to right, #ffffff, var(--text-secondary))',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent'
+          color: '#ffffff'
         }}>
           TRIVIA X
         </span>
       </div>
 
       {/* Nav List */}
-      <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', flex: 1 }}>
+      <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
         {navItems.map((item) => (
           <NavLink
             key={item.path}
@@ -70,25 +66,26 @@ const Sidebar = ({ user, onLogout }) => {
               alignItems: 'center',
               gap: '0.85rem',
               padding: '0.875rem 1.15rem',
-              borderRadius: '16px',
+              borderRadius: '14px',
               fontFamily: 'var(--font-body)',
-              color: isActive ? 'white' : 'var(--text-secondary)',
-              background: isActive ? 'var(--accent-primary)' : 'transparent',
+              color: isActive ? '#000000' : '#888888',
+              background: isActive ? '#ffffff' : 'transparent',
               textDecoration: 'none',
               fontWeight: 700,
               fontSize: '0.95rem',
-              transition: 'all 0.1s ease',
-              borderBottom: isActive ? '4px solid #5a3089' : '4px solid transparent',
-              transform: isActive ? 'translateY(1px)' : 'none'
+              transition: 'all 0.15s ease',
+              borderBottom: isActive ? '3px solid #999999' : '3px solid transparent',
             })}
             onMouseEnter={(e) => {
               if (!e.currentTarget.classList.contains('active')) {
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)';
+                e.currentTarget.style.color = '#ffffff';
               }
             }}
             onMouseLeave={(e) => {
               if (!e.currentTarget.classList.contains('active')) {
                 e.currentTarget.style.background = 'transparent';
+                e.currentTarget.style.color = '#888888';
               }
             }}
           >
@@ -98,14 +95,14 @@ const Sidebar = ({ user, onLogout }) => {
         ))}
       </nav>
 
-      {/* User Session Footer card */}
+      {/* User Session Footer */}
       {user && (
         <div style={{
           marginTop: 'auto',
           padding: '1.25rem',
-          background: 'rgba(0, 0, 0, 0.15)',
-          borderRadius: '18px',
-          border: '1px solid var(--border)',
+          background: '#111111',
+          borderRadius: '16px',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between'
@@ -118,15 +115,15 @@ const Sidebar = ({ user, onLogout }) => {
                 width: 42, 
                 height: 42, 
                 borderRadius: '50%', 
-                border: '2px solid var(--accent-primary)',
-                background: 'var(--bg-base)'
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                background: '#1a1a1a'
               }} 
             />
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-primary)' }}>
+              <span style={{ fontWeight: 700, fontSize: '0.9rem', color: '#ffffff' }}>
                 {user.username}
               </span>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+              <span style={{ fontSize: '0.75rem', color: '#666666', fontWeight: 600 }}>
                 Challenger
               </span>
             </div>
@@ -137,17 +134,17 @@ const Sidebar = ({ user, onLogout }) => {
             style={{
               background: 'transparent',
               border: 'none',
-              color: 'var(--text-muted)',
+              color: '#666666',
               cursor: 'pointer',
               padding: '0.5rem',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               borderRadius: '10px',
-              transition: 'all 0.1s'
+              transition: 'all 0.15s'
             }}
-            onMouseOver={(e) => { e.currentTarget.style.color = 'var(--error)'; e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'; }}
-            onMouseOut={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.background = 'transparent'; }}
+            onMouseOver={(e) => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'; }}
+            onMouseOut={(e) => { e.currentTarget.style.color = '#666666'; e.currentTarget.style.background = 'transparent'; }}
           >
             <LogOut size={18} />
           </button>

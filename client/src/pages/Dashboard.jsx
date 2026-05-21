@@ -3,15 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import api from '../utils/api';
 import { PlayCircle, Star, Trophy, Award, ArrowRight, Activity, Zap } from 'lucide-react';
-import dashboardBg from '../assets/dashboard_bg.png';
 
 const Dashboard = ({ user }) => {
-  const [stats, setStats] = useState({
-    gamesPlayed: 0,
-    totalScore: 0,
-    highScore: 0,
-    avgScore: 0,
-  });
+  const [stats, setStats] = useState({ gamesPlayed: 0, totalScore: 0, highScore: 0, avgScore: 0 });
   const [recentScores, setRecentScores] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -21,13 +15,11 @@ const Dashboard = ({ user }) => {
       try {
         const res = await api.get('/scores/my');
         const scores = res.data;
-        
         if (scores.length > 0) {
           const gamesPlayed = scores.length;
           const totalScore = scores.reduce((sum, s) => sum + s.score, 0);
           const highScore = Math.max(...scores.map(s => s.score));
           const avgScore = Math.round(totalScore / gamesPlayed);
-          
           setStats({ gamesPlayed, totalScore, highScore, avgScore });
           setRecentScores(scores.slice(0, 5));
         }
@@ -37,57 +29,40 @@ const Dashboard = ({ user }) => {
         setLoading(false);
       }
     };
-
     fetchStats();
   }, []);
 
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return 'Good morning ☀️';
-    if (hour < 18) return 'Good afternoon ⚡';
-    return 'Good evening 🌙';
+    if (hour < 12) return 'Good morning';
+    if (hour < 18) return 'Good afternoon';
+    return 'Good evening';
   };
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh', color: 'var(--text-secondary)' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
         <div style={{ textAlign: 'center' }}>
-          <Zap className="animate-float" size={54} color="var(--accent-primary)" style={{ marginBottom: '1rem' }} />
-          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800 }}>Loading Dashboard...</h2>
+          <Zap className="animate-float" size={54} color="#ffffff" style={{ marginBottom: '1rem' }} />
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, color: '#ffffff' }}>Loading Dashboard...</h2>
         </div>
       </div>
     );
   }
 
   return (
-    <div 
-      className="animate-fade-in" 
-      style={{ 
-        padding: '2rem', 
-        minHeight: '100vh',
-        backgroundImage: `url(${dashboardBg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }}
-    >
+    <div className="animate-fade-in" style={{ padding: '2rem', minHeight: '100vh', background: '#000000' }}>
       <div className="page-container">
-        {/* Welcome Banner Card (Sleek Gamified Header) */}
+        {/* Welcome Banner */}
         <div className="glass-panel" style={{ padding: '3rem 2.5rem', marginBottom: '2.5rem', position: 'relative', overflow: 'hidden' }}>
           <div style={{ position: 'relative', zIndex: 2 }}>
-            <span style={{ 
-              color: 'var(--accent-primary)', 
-              fontWeight: 800, 
-              fontSize: '0.85rem', 
-              textTransform: 'uppercase', 
-              letterSpacing: '0.1em' 
-            }}>
+            <span style={{ color: '#888888', fontWeight: 800, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
               {getGreeting()}, Challenger!
             </span>
-            <h1 style={{ fontSize: '3rem', marginTop: '0.5rem', marginBottom: '0.75rem', fontWeight: 900, fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}>
-              Welcome back, <span className="text-gradient">{user?.username}</span> 🎯
+            <h1 style={{ fontSize: '3rem', marginTop: '0.5rem', marginBottom: '0.75rem', fontWeight: 900, fontFamily: 'var(--font-display)', color: '#ffffff' }}>
+              Welcome back, <span className="text-gradient">{user?.username}</span>
             </h1>
-            <p style={{ color: 'var(--text-secondary)', maxWidth: '640px', fontSize: '1.05rem', lineHeight: 1.6, fontWeight: 500 }}>
+            <p style={{ color: '#888888', maxWidth: '640px', fontSize: '1.05rem', lineHeight: 1.6, fontWeight: 500 }}>
               Test your brain limits, conquer the weekly leaderboards, and lock in expert badges. Ready for your next epic quest?
             </p>
             <div style={{ display: 'flex', gap: '1.25rem', marginTop: '2rem', flexWrap: 'wrap' }}>
@@ -99,105 +74,52 @@ const Dashboard = ({ user }) => {
               </button>
             </div>
           </div>
-          
-          {/* Glow Spheres */}
-          <div style={{ 
-            position: 'absolute', 
-            top: '-30%', 
-            right: '-10%', 
-            width: '350px', 
-            height: '350px', 
-            background: 'radial-gradient(circle, rgba(234, 88, 12, 0.1) 0%, transparent 70%)',
-            borderRadius: '50%',
-            filter: 'blur(50px)',
-            zIndex: 1
-          }} />
         </div>
 
-        {/* Performance Metrics Heading */}
-        <h2 style={{ fontSize: '1.6rem', marginBottom: '1.5rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--text-primary)' }}>PERFORMANCE METRICS</h2>
+        <h2 style={{ fontSize: '1.6rem', marginBottom: '1.5rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: '#ffffff' }}>PERFORMANCE METRICS</h2>
         
-        {/* Stats Cards Grid */}
+        {/* Stats Cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem', marginBottom: '3rem' }}>
-          <StatCard 
-            icon={<PlayCircle size={26} color="var(--accent-primary)" />} 
-            label="Games Played" 
-            value={stats.gamesPlayed} 
-            desc="Completed sessions"
-          />
-          <StatCard 
-            icon={<Star size={26} color="var(--warning)" />} 
-            label="Total Score" 
-            value={stats.totalScore} 
-            desc="Points earned"
-          />
-          <StatCard 
-            icon={<Trophy size={26} color="var(--accent-secondary)" />} 
-            label="High Score" 
-            value={stats.highScore} 
-            desc="Single session peak"
-          />
-          <StatCard 
-            icon={<Award size={26} color="var(--success)" />} 
-            label="Average Score" 
-            value={stats.avgScore} 
-            desc="Mean session points"
-          />
+          <StatCard icon={<PlayCircle size={26} color="#ffffff" />} label="Games Played" value={stats.gamesPlayed} desc="Completed sessions" />
+          <StatCard icon={<Star size={26} color="#ffffff" />} label="Total Score" value={stats.totalScore} desc="Points earned" />
+          <StatCard icon={<Trophy size={26} color="#ffffff" />} label="High Score" value={stats.highScore} desc="Single session peak" />
+          <StatCard icon={<Award size={26} color="#ffffff" />} label="Average Score" value={stats.avgScore} desc="Mean session points" />
         </div>
 
-        {/* Bottom Layout Rows */}
+        {/* Bottom Layout */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
           {/* Recent Sessions */}
-          <div className="card" style={{ display: 'flex', flexDirection: 'column', background: 'var(--bg-surface)' }}>
+          <div className="card" style={{ display: 'flex', flexDirection: 'column' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-              <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.3rem', fontWeight: 800, fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}>
-                <Activity size={20} color="var(--accent-primary)" /> Recent Sessions
+              <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.3rem', fontWeight: 800, fontFamily: 'var(--font-display)', color: '#ffffff' }}>
+                <Activity size={20} color="#ffffff" /> Recent Sessions
               </h3>
               {recentScores.length > 0 && (
-                <button 
-                  onClick={() => navigate('/history')} 
-                  style={{ background: 'none', border: 'none', color: 'var(--accent-primary)', display: 'flex', alignItems: 'center', gap: '0.25rem', cursor: 'pointer', fontWeight: 700, fontSize: '0.9rem' }}
-                >
+                <button onClick={() => navigate('/history')} style={{ background: 'none', border: 'none', color: '#888888', display: 'flex', alignItems: 'center', gap: '0.25rem', cursor: 'pointer', fontWeight: 700, fontSize: '0.9rem' }}>
                   All History <ArrowRight size={14} />
                 </button>
               )}
             </div>
-            
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
               {recentScores.length > 0 ? (
-                recentScores.map((score, index) => (
-                  <div 
-                    key={score._id} 
-                    style={{ 
-                      display: 'flex', 
-                      justifyContent: 'space-between', 
-                      alignItems: 'center', 
-                      padding: '0.85rem 1.25rem', 
-                      background: '#f8fafc', 
-                      border: '1px solid var(--border)', 
-                      borderRadius: '14px' 
-                    }}
-                  >
+                recentScores.map((score) => (
+                  <div key={score._id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.85rem 1.25rem', background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '14px' }}>
                     <div>
-                      <div style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text-primary)' }}>{score.category}</div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+                      <div style={{ fontWeight: 700, fontSize: '0.95rem', color: '#ffffff' }}>{score.category}</div>
+                      <div style={{ fontSize: '0.75rem', color: '#666666', fontWeight: 600 }}>
                         {new Date(score.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                       </div>
                     </div>
-                    <div style={{ fontWeight: 900, color: 'var(--accent-primary)', fontSize: '1.15rem', fontFamily: 'var(--font-display)' }}>
+                    <div style={{ fontWeight: 900, color: '#ffffff', fontSize: '1.15rem', fontFamily: 'var(--font-display)' }}>
                       +{score.score}
                     </div>
                   </div>
                 ))
               ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', flex: 1, padding: '2rem', textAlign: 'center', color: 'var(--text-secondary)' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', flex: 1, padding: '2rem', textAlign: 'center', color: '#888888' }}>
                   <Zap size={36} style={{ opacity: 0.3, marginBottom: '0.75rem' }} />
                   <p style={{ fontSize: '0.95rem', fontWeight: 600 }}>No quizzes played yet.</p>
-                  <button 
-                    onClick={() => navigate('/quiz')} 
-                    className="btn btn-primary" 
-                    style={{ marginTop: '1rem', padding: '0.5rem 1.25rem', fontSize: '0.85rem' }}
-                  >
+                  <button onClick={() => navigate('/quiz')} className="btn btn-primary" style={{ marginTop: '1rem', padding: '0.5rem 1.25rem', fontSize: '0.85rem' }}>
                     Play your first quiz
                   </button>
                 </div>
@@ -205,21 +127,21 @@ const Dashboard = ({ user }) => {
             </div>
           </div>
 
-          {/* Daily Progress Goal Booster Card */}
-          <div className="card" style={{ background: 'linear-gradient(135deg, rgba(234, 88, 12, 0.06), rgba(14, 165, 233, 0.04))', borderColor: 'rgba(234, 88, 12, 0.15)' }}>
-            <h3 style={{ fontSize: '1.3rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--text-primary)' }}>
+          {/* Brain Booster */}
+          <div className="card" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
+            <h3 style={{ fontSize: '1.3rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: '#ffffff' }}>
               🧠 Brain Booster
             </h3>
-            <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.5rem', fontSize: '0.95rem', fontWeight: 500 }}>
-              General Knowledge training expands crystallized brain memory, sharpening vocabulary retention and analytical connections across wide academic categories! Keep training daily to level up your global ranks!
+            <p style={{ color: '#888888', lineHeight: 1.6, marginBottom: '1.5rem', fontSize: '0.95rem', fontWeight: 500 }}>
+              General Knowledge training expands crystallized brain memory, sharpening vocabulary retention and analytical connections across wide academic categories!
             </p>
-            <div style={{ padding: '1.25rem', background: '#ffffff', borderRadius: '16px', border: '1px solid var(--border)' }}>
-              <span style={{ fontWeight: 800, fontSize: '0.8rem', color: 'var(--accent-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Daily Trivia Quest</span>
-              <div style={{ fontWeight: 800, marginTop: '0.25rem', marginBottom: '0.75rem', fontSize: '1.05rem', color: 'var(--text-primary)' }}>Finish 3 trivia quiz rounds</div>
-              <div style={{ height: '8px', background: '#f1f5f9', borderRadius: '4px', overflow: 'hidden', border: '1px solid var(--border)' }}>
-                <div style={{ width: `${Math.min((stats.gamesPlayed / 3) * 100, 100)}%`, height: '100%', background: 'linear-gradient(to right, var(--accent-primary), var(--accent-secondary))' }} />
+            <div style={{ padding: '1.25rem', background: '#1a1a1a', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.06)' }}>
+              <span style={{ fontWeight: 800, fontSize: '0.8rem', color: '#888888', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Daily Trivia Quest</span>
+              <div style={{ fontWeight: 800, marginTop: '0.25rem', marginBottom: '0.75rem', fontSize: '1.05rem', color: '#ffffff' }}>Finish 3 trivia quiz rounds</div>
+              <div style={{ height: '8px', background: '#222222', borderRadius: '4px', overflow: 'hidden' }}>
+                <div style={{ width: `${Math.min((stats.gamesPlayed / 3) * 100, 100)}%`, height: '100%', background: '#ffffff', borderRadius: '4px' }} />
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginTop: '0.5rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginTop: '0.5rem', color: '#666666', fontWeight: 600 }}>
                 <span>{Math.min(stats.gamesPlayed, 3)} of 3 rounds done</span>
                 <span>{stats.gamesPlayed >= 3 ? '100%' : `${Math.round((stats.gamesPlayed / 3) * 100)}%`}</span>
               </div>
@@ -232,17 +154,13 @@ const Dashboard = ({ user }) => {
 };
 
 const StatCard = ({ icon, label, value, desc }) => (
-  <motion.div 
-    whileHover={{ y: -4 }}
-    className="card stat-card"
-    style={{ background: 'var(--bg-surface)' }}
-  >
+  <motion.div whileHover={{ y: -4 }} className="card stat-card">
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
-      <span className="stat-label" style={{ color: 'var(--text-secondary)' }}>{label}</span>
+      <span className="stat-label">{label}</span>
       {icon}
     </div>
-    <span className="stat-value" style={{ color: 'var(--text-primary)' }}>{value}</span>
-    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>{desc}</span>
+    <span className="stat-value">{value}</span>
+    <span style={{ fontSize: '0.75rem', color: '#666666', fontWeight: 600 }}>{desc}</span>
   </motion.div>
 );
 
