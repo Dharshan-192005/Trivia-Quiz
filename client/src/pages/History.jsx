@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import { History as HistoryIcon, Calendar, Star, PlayCircle, Trophy, HelpCircle } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 
 const History = () => {
   const [scores, setScores] = useState([]);
@@ -27,14 +27,15 @@ const History = () => {
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh', color: '#888888' }}>
+      <div className="page-shell scene-page history-scene" style={{ display: 'grid', placeItems: 'center', color: '#888888' }}>
         <div>Loading History...</div>
       </div>
     );
   }
 
   return (
-    <div className="page-container animate-fade-in" style={{ padding: '1rem' }}>
+    <main className="page-shell animate-fade-in scene-page history-scene">
+      <div className="page-container">
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
@@ -103,7 +104,7 @@ const History = () => {
                     else if (score.score >= 30) ratingText = 'Good Effort';
 
                     return (
-                      <motion.tr initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.05 }} key={score._id}
+                      <Motion.tr initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.05 }} key={score._id}
                         style={{ borderBottom: index === scores.length - 1 ? 'none' : '1px solid rgba(255,255,255,0.06)', transition: 'background 0.2s', cursor: 'default' }}
                         onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.02)'}
                         onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
@@ -128,7 +129,7 @@ const History = () => {
                             {ratingText}
                           </span>
                         </td>
-                      </motion.tr>
+                      </Motion.tr>
                     );
                   })}
                 </tbody>
@@ -146,7 +147,8 @@ const History = () => {
           </button>
         </div>
       )}
-    </div>
+      </div>
+    </main>
   );
 };
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../utils/api';
 import { UserCircle, Trophy, Star, PlayCircle, Award, Calendar, ShieldCheck, Flame } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 const Profile = ({ user }) => {
   const [stats, setStats] = useState({ gamesPlayed: 0, totalScore: 0, highScore: 0, avgScore: 0 });
@@ -49,7 +48,7 @@ const Profile = ({ user }) => {
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
+      <div className="page-shell scene-page profile-scene" style={{ display: 'grid', placeItems: 'center' }}>
         <div style={{ textAlign: 'center' }}>
           <UserCircle className="animate-float" size={40} color="#ffffff" style={{ marginBottom: '0.75rem' }} />
           <p style={{ fontWeight: 600, color: '#888888' }}>Loading Profile Details...</p>
@@ -59,7 +58,7 @@ const Profile = ({ user }) => {
   }
 
   return (
-    <div className="animate-fade-in" style={{ padding: '2rem', minHeight: '100vh', background: '#000000' }}>
+    <main className="page-shell animate-fade-in scene-page profile-scene">
       <div className="page-container">
         {/* Profile Header */}
         <div className="glass-panel" style={{ padding: '3rem 2.5rem', marginBottom: '2.5rem', display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' }}>
@@ -122,7 +121,7 @@ const Profile = ({ user }) => {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

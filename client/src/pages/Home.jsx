@@ -1,117 +1,71 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { PlayCircle, Trophy, HelpCircle, Award, Zap } from 'lucide-react';
+import { motion as Motion } from 'framer-motion';
+import { Award, BrainCircuit, PlayCircle, ShieldCheck, Trophy, Zap } from 'lucide-react';
 
 const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div style={{ 
-      minHeight: '100vh',
-      background: '#000000',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      padding: '4rem 2rem',
-      textAlign: 'center',
-      position: 'relative',
-      overflowY: 'auto'
-    }}>
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{ position: 'relative', zIndex: 1, maxWidth: '800px', margin: '2rem auto 0 auto' }}
-      >
-        {/* Brand Badge */}
-        <div style={{ 
-          display: 'inline-flex', 
-          alignItems: 'center', 
-          gap: '0.5rem', 
-          padding: '6px 14px', 
-          background: 'rgba(255, 255, 255, 0.05)', 
-          border: '1px solid rgba(255, 255, 255, 0.12)', 
-          borderRadius: '30px', 
-          marginBottom: '1.5rem' 
-        }}>
-          <Zap size={12} color="#ffffff" fill="#ffffff" />
-          <span style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#ffffff' }}>
-            The Gamified Trivia Arena
-          </span>
-        </div>
+    <main className="home-hero">
+      <div className="page-container hero-grid">
+        <Motion.section
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <div className="eyebrow">
+            <Zap size={16} />
+            Live trivia, clean competition
+          </div>
+          <h1 className="hero-title" style={{ marginTop: '1rem' }}>
+            Trivia X
+          </h1>
+          <p className="hero-copy">
+            A polished quiz arena for fast rounds, custom topics, smart scoring, and progress that actually feels good to come back to.
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.85rem' }}>
+            <button className="btn btn-primary" onClick={() => navigate('/register')}>
+              <PlayCircle size={19} />
+              Start Playing
+            </button>
+            <button className="btn btn-secondary" onClick={() => navigate('/login')}>
+              Sign In
+            </button>
+          </div>
+        </Motion.section>
 
-        <h1 style={{ 
-          fontSize: '3.25rem', 
-          fontWeight: 900, 
-          lineHeight: 1.15, 
-          fontFamily: 'var(--font-display)', 
-          marginBottom: '1.25rem',
-          letterSpacing: '-0.02em',
-          color: '#ffffff'
-        }}>
-          Elevate Your Mind with <span className="text-gradient">Trivia X</span>
-        </h1>
-
-        <p style={{ 
-          fontSize: '1.1rem', 
-          color: '#888888', 
-          marginBottom: '2.5rem', 
-          maxWidth: '580px', 
-          margin: '0 auto 2.5rem auto',
-          lineHeight: 1.6,
-          fontWeight: 500
-        }}>
-          Play general knowledge and science quests. Compete with global brains, claim trophies, and track your achievements.
-        </p>
-
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '4rem' }}>
-          <button onClick={() => navigate('/register')} className="btn btn-primary" style={{ padding: '1rem 2.25rem', fontSize: '1rem', borderRadius: '14px' }}>
-            <PlayCircle size={20} /> Play Now Free
-          </button>
-          <button onClick={() => navigate('/login')} className="btn btn-secondary" style={{ padding: '1rem 2.25rem', fontSize: '1rem', borderRadius: '14px' }}>
-            Sign In to Account
-          </button>
-        </div>
-      </motion.div>
-
-      {/* Feature grid */}
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-        gap: '1.5rem', 
-        width: '100%', 
-        maxWidth: '1000px',
-        position: 'relative', 
-        zIndex: 1,
-        marginTop: '1.5rem'
-      }}>
-        <FeatureCard icon={<HelpCircle size={28} color="#ffffff" />} title="Custom Quizzes" desc="Roll your favorite seeds, configure subjects, and pick difficulties directly inside settings." />
-        <FeatureCard icon={<Trophy size={28} color="#ffffff" />} title="Vibrant Podium" desc="Battle for the weekly leaderboard rankings and stand tall on the three-tier hall podium." />
-        <FeatureCard icon={<Award size={28} color="#ffffff" />} title="Achievement Badges" desc="Finishing runs triggers accomplishments, unlocking 6 levels of custom brain medal rewards." />
+        <Motion.aside
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.12, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          className="panel"
+          style={{ display: 'grid', gap: '1rem' }}
+        >
+          <Feature icon={<BrainCircuit size={22} />} title="Custom Rounds" copy="Choose categories, difficulty, pace, and AI-generated topics." />
+          <Feature icon={<Trophy size={22} />} title="Leaderboard Ready" copy="Track recent sessions and climb the rankings with clean score feedback." />
+          <Feature icon={<Award size={22} />} title="Achievement Flow" copy="Unlock profile badges as your total score and high scores improve." />
+          <div className="list-row" style={{ background: 'linear-gradient(135deg, rgba(125,211,252,0.16), rgba(184,247,212,0.1))' }}>
+            <div>
+              <div style={{ fontWeight: 900 }}>Next round is one click away</div>
+              <div style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Built for quick sessions and repeat play.</div>
+            </div>
+            <ShieldCheck size={24} color="var(--accent-tertiary)" />
+          </div>
+        </Motion.aside>
       </div>
-    </div>
+    </main>
   );
 };
 
-const FeatureCard = ({ icon, title, desc }) => (
-  <motion.div 
-    whileHover={{ y: -6 }}
-    className="card" 
-    style={{ 
-      padding: '2rem', 
-      textAlign: 'left', 
-      display: 'flex', 
-      flexDirection: 'column', 
-      gap: '0.75rem',
-      borderLeft: '3px solid rgba(255, 255, 255, 0.2)',
-      borderRadius: '16px'
-    }}
-  >
-    <div style={{ marginBottom: '0.15rem' }}>{icon}</div>
-    <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#ffffff', fontFamily: 'var(--font-display)' }}>{title}</h3>
-    <p style={{ color: '#888888', fontSize: '0.9rem', lineHeight: 1.5, fontWeight: 500 }}>{desc}</p>
-  </motion.div>
+const Feature = ({ icon, title, copy }) => (
+  <div className="list-row" style={{ alignItems: 'flex-start' }}>
+    <div style={{ color: 'var(--accent-primary)', marginTop: 2 }}>{icon}</div>
+    <div>
+      <div style={{ fontWeight: 900 }}>{title}</div>
+      <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', marginTop: '0.2rem' }}>{copy}</p>
+    </div>
+  </div>
 );
 
 export default Home;

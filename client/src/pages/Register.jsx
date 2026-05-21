@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../utils/api';
-import { motion } from 'framer-motion';
 import bgImage from '../assets/auth_bg.png';
 
 const Register = ({ onRegister }) => {
@@ -35,11 +34,11 @@ const Register = ({ onRegister }) => {
         style={{ backgroundImage: `url(${bgImage})` }}
       >
         <div className="auth-sidebar-content animate-slide-up delay-100">
-          <h1 style={{ color: 'white', background: 'none', WebkitTextFillColor: 'white', fontSize: '3.5rem', lineHeight: 1.1, marginBottom: '20px' }}>
-            Join Us<br />Today
+          <h1 style={{ color: 'white', background: 'none', WebkitTextFillColor: 'white', fontSize: 'clamp(2.7rem, 6vw, 5rem)', lineHeight: 1.02, marginBottom: '20px' }}>
+            Join Trivia X
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '1rem', lineHeight: 1.6 }}>
-            Start your journey with the MERN Trivia X platform. Expand your mind, track achievements, and compete with global brains in our beautiful retro-arcade interface.
+            Create your profile, choose a topic, and start collecting scores, badges, and leaderboard placements.
           </p>
         </div>
       </div>
@@ -49,7 +48,7 @@ const Register = ({ onRegister }) => {
         <div className="auth-form-wrapper animate-slide-up delay-200">
           
           <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-            <h2 style={{ fontSize: '2rem', fontWeight: 800, color: '#0f172a' }}>Sign up</h2>
+            <h2 style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--text-primary)' }}>Sign up</h2>
           </div>
 
           {error && (
@@ -109,7 +108,7 @@ const Register = ({ onRegister }) => {
               {loading ? 'Registering...' : 'Create Account'}
             </button>
 
-            <div style={{ textAlign: 'center', marginTop: '16px', fontSize: '0.85rem', color: '#6b7280' }}>
+            <div style={{ textAlign: 'center', marginTop: '16px', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
               Already have an account?{' '}
               <Link 
                 to="/login" 
@@ -120,9 +119,9 @@ const Register = ({ onRegister }) => {
             </div>
           </form>
 
-          <div style={{ textAlign: 'center', marginTop: '40px', fontSize: '0.75rem', color: '#9ca3af' }}>
+          <div style={{ textAlign: 'center', marginTop: '40px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
             By creating an account you agree to our<br/>
-            <a href="#" style={{ color: '#6b7280', textDecoration: 'none' }} onClick={(e) => e.preventDefault()}>Terms of Service</a> and <a href="#" style={{ color: '#6b7280', textDecoration: 'none' }} onClick={(e) => e.preventDefault()}>Privacy Policy</a>
+            <a href="#" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} onClick={(e) => e.preventDefault()}>Terms of Service</a> and <a href="#" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} onClick={(e) => e.preventDefault()}>Privacy Policy</a>
           </div>
 
         </div>

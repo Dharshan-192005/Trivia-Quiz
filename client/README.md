@@ -1,16 +1,20 @@
-# React + Vite
+# Trivia Quiz App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Technology Stack
 
-Currently, two official plugins are available:
+- **Frontend**: React, Vite, JavaScript, HTML, CSS
+- **Backend**: Node.js, Express
+- **Database**: MongoDB
+- **Package Manager**: npm (or Yarn)
+- **Build Tool**: Vite (for fast dev server and bundling)
+- **Testing (optional)**: Jest, React Testing Library
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This project is a full‑stack MERN application that provides a trivia quiz experience.
 
-## React Compiler
+### Modules
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend**: Implements the user interface using React and Vite. Handles quiz display, navigation, and client‑side state.
+- **Backend**: Node.js with Express provides REST endpoints for fetching questions, submitting answers, and calculating scores.
+- **Database**: MongoDB stores question data and user scores, accessed via Mongoose models.
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Each module is located in the `client/src` (frontend) and `server` (backend) directories, making the codebase easy to navigate and extend.

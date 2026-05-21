@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../utils/api';
 import { Trophy, Zap } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 
 const Leaderboard = () => {
   const [board, setBoard] = useState([]);
@@ -23,7 +23,7 @@ const Leaderboard = () => {
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+      <div className="page-shell scene-page leaderboard-scene" style={{ display: 'grid', placeItems: 'center' }}>
         <div style={{ textAlign: 'center' }}>
           <Trophy className="animate-float" size={54} color="#ffffff" style={{ marginBottom: '1rem' }} />
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, color: '#ffffff' }}>Loading Rankings...</h2>
@@ -48,7 +48,7 @@ const Leaderboard = () => {
   };
 
   return (
-    <div className="animate-fade-in" style={{ padding: '2rem', minHeight: '100vh', background: '#000000' }}>
+    <main className="page-shell animate-fade-in scene-page leaderboard-scene">
       <div className="page-container">
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
@@ -67,7 +67,7 @@ const Leaderboard = () => {
                   const podiumHeights = { 1: '180px', 2: '140px', 3: '110px' };
                   const brightness = getRankBrightness(entry.rank);
                   return (
-                    <motion.div
+                    <Motion.div
                       key={entry._id}
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -109,7 +109,7 @@ const Leaderboard = () => {
                       }}>
                         <span style={{ fontSize: '2rem', fontWeight: 900, color: '#000000', opacity: 0.4, fontFamily: 'var(--font-display)' }}>#{entry.rank}</span>
                       </div>
-                    </motion.div>
+                    </Motion.div>
                   );
                 })}
               </div>
@@ -121,7 +121,7 @@ const Leaderboard = () => {
                 {runnersUp.map((entry, index) => {
                   const actualRank = index + 4;
                   return (
-                    <motion.div key={entry._id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.05 }}
+                    <Motion.div key={entry._id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.05 }}
                       style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.25rem 2rem', borderBottom: index === runnersUp.length - 1 ? 'none' : '1px solid rgba(255,255,255,0.06)', transition: 'background 0.15s' }}
                       onMouseEnter={(e) => e.currentTarget.style.background = '#1a1a1a'}
                       onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
@@ -135,7 +135,7 @@ const Leaderboard = () => {
                         </div>
                       </div>
                       <span style={{ fontSize: '1.35rem', fontWeight: 900, color: '#ffffff', fontFamily: 'var(--font-display)' }}>{entry.score}</span>
-                    </motion.div>
+                    </Motion.div>
                   );
                 })}
               </div>
@@ -148,7 +148,7 @@ const Leaderboard = () => {
           </div>
         )}
       </div>
-    </div>
+    </main>
   );
 };
 

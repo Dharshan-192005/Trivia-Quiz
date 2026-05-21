@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import api from '../utils/api';
-import { PlayCircle, Star, Trophy, Award, ArrowRight, Activity, Zap } from 'lucide-react';
+import { Activity, ArrowRight, Award, PlayCircle, Star, Trophy, Zap } from 'lucide-react';
 
 const Dashboard = ({ user }) => {
   const [stats, setStats] = useState({ gamesPlayed: 0, totalScore: 0, highScore: 0, avgScore: 0 });
@@ -29,10 +29,11 @@ const Dashboard = ({ user }) => {
         setLoading(false);
       }
     };
+
     fetchStats();
   }, []);
 
-  const getGreeting = () => {
+  const greeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return 'Good morning';
     if (hour < 18) return 'Good afternoon';
@@ -41,127 +42,127 @@ const Dashboard = ({ user }) => {
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+      <div className="page-shell scene-page dashboard-scene" style={{ display: 'grid', placeItems: 'center' }}>
         <div style={{ textAlign: 'center' }}>
-          <Zap className="animate-float" size={54} color="#ffffff" style={{ marginBottom: '1rem' }} />
-          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, color: '#ffffff' }}>Loading Dashboard...</h2>
+          <Zap className="animate-float" size={52} color="var(--accent-primary)" />
+          <h2 style={{ marginTop: '1rem' }}>Loading dashboard</h2>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="animate-fade-in" style={{ padding: '2rem', minHeight: '100vh', background: '#000000' }}>
+    <main className="page-shell animate-fade-in scene-page dashboard-scene">
       <div className="page-container">
-        {/* Welcome Banner */}
-        <div className="glass-panel" style={{ padding: '3rem 2.5rem', marginBottom: '2.5rem', position: 'relative', overflow: 'hidden' }}>
-          <div style={{ position: 'relative', zIndex: 2 }}>
-            <span style={{ color: '#888888', fontWeight: 800, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-              {getGreeting()}, Challenger!
-            </span>
-            <h1 style={{ fontSize: '3rem', marginTop: '0.5rem', marginBottom: '0.75rem', fontWeight: 900, fontFamily: 'var(--font-display)', color: '#ffffff' }}>
+        <section className="glass-panel dashboard-hero">
+          <div>
+            <div className="eyebrow">{greeting()}, Challenger</div>
+            <h1 className="dashboard-title">
               Welcome back, <span className="text-gradient">{user?.username}</span>
             </h1>
-            <p style={{ color: '#888888', maxWidth: '640px', fontSize: '1.05rem', lineHeight: 1.6, fontWeight: 500 }}>
-              Test your brain limits, conquer the weekly leaderboards, and lock in expert badges. Ready for your next epic quest?
+            <p style={{ maxWidth: 650, marginTop: '0.75rem', color: 'var(--text-secondary)' }}>
+              Pick up a quick quiz, review your recent sessions, and keep nudging that high score upward.
             </p>
-            <div style={{ display: 'flex', gap: '1.25rem', marginTop: '2rem', flexWrap: 'wrap' }}>
-              <button onClick={() => navigate('/quiz')} className="btn btn-primary" style={{ padding: '1rem 2rem' }}>
-                <PlayCircle size={20} /> Play Quick Quiz
-              </button>
-              <button onClick={() => navigate('/leaderboard')} className="btn btn-secondary" style={{ padding: '1rem 2rem' }}>
-                View Hall of Fame
-              </button>
-            </div>
           </div>
-        </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+            <button className="btn btn-primary" onClick={() => navigate('/quiz')}>
+              <PlayCircle size={19} />
+              Play Quiz
+            </button>
+            <button className="btn btn-secondary" onClick={() => navigate('/leaderboard')}>
+              View Rankings
+            </button>
+          </div>
+        </section>
 
-        <h2 style={{ fontSize: '1.6rem', marginBottom: '1.5rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: '#ffffff' }}>PERFORMANCE METRICS</h2>
-        
-        {/* Stats Cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem', marginBottom: '3rem' }}>
-          <StatCard icon={<PlayCircle size={26} color="#ffffff" />} label="Games Played" value={stats.gamesPlayed} desc="Completed sessions" />
-          <StatCard icon={<Star size={26} color="#ffffff" />} label="Total Score" value={stats.totalScore} desc="Points earned" />
-          <StatCard icon={<Trophy size={26} color="#ffffff" />} label="High Score" value={stats.highScore} desc="Single session peak" />
-          <StatCard icon={<Award size={26} color="#ffffff" />} label="Average Score" value={stats.avgScore} desc="Mean session points" />
-        </div>
+        <div className="section-title">Performance</div>
+        <section className="stats-grid" style={{ marginBottom: '1.2rem' }}>
+          <StatCard icon={<PlayCircle size={22} />} label="Games Played" value={stats.gamesPlayed} desc="Completed sessions" />
+          <StatCard icon={<Star size={22} />} label="Total Score" value={stats.totalScore} desc="Points earned" />
+          <StatCard icon={<Trophy size={22} />} label="High Score" value={stats.highScore} desc="Best single run" />
+          <StatCard icon={<Award size={22} />} label="Average Score" value={stats.avgScore} desc="Mean session score" />
+        </section>
 
-        {/* Bottom Layout */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
-          {/* Recent Sessions */}
-          <div className="card" style={{ display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-              <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.3rem', fontWeight: 800, fontFamily: 'var(--font-display)', color: '#ffffff' }}>
-                <Activity size={20} color="#ffffff" /> Recent Sessions
-              </h3>
+        <section className="two-column">
+          <div className="card">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+              <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', fontSize: '1.25rem' }}>
+                <Activity size={20} /> Recent Sessions
+              </h2>
               {recentScores.length > 0 && (
-                <button onClick={() => navigate('/history')} style={{ background: 'none', border: 'none', color: '#888888', display: 'flex', alignItems: 'center', gap: '0.25rem', cursor: 'pointer', fontWeight: 700, fontSize: '0.9rem' }}>
-                  All History <ArrowRight size={14} />
+                <button className="icon-button" onClick={() => navigate('/history')} aria-label="Open history" title="Open history">
+                  <ArrowRight size={18} />
                 </button>
               )}
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
+
+            <div className="list-stack">
               {recentScores.length > 0 ? (
                 recentScores.map((score) => (
-                  <div key={score._id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.85rem 1.25rem', background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '14px' }}>
+                  <div className="list-row" key={score._id}>
                     <div>
-                      <div style={{ fontWeight: 700, fontSize: '0.95rem', color: '#ffffff' }}>{score.category}</div>
-                      <div style={{ fontSize: '0.75rem', color: '#666666', fontWeight: 600 }}>
+                      <div style={{ fontWeight: 850 }}>{score.category}</div>
+                      <div style={{ color: 'var(--text-muted)', fontSize: '0.82rem', fontWeight: 650 }}>
                         {new Date(score.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                       </div>
                     </div>
-                    <div style={{ fontWeight: 900, color: '#ffffff', fontSize: '1.15rem', fontFamily: 'var(--font-display)' }}>
-                      +{score.score}
+                    <div style={{ color: 'var(--accent-primary)', fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 900 }}>
+                      {score.score}
                     </div>
                   </div>
                 ))
               ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', flex: 1, padding: '2rem', textAlign: 'center', color: '#888888' }}>
-                  <Zap size={36} style={{ opacity: 0.3, marginBottom: '0.75rem' }} />
-                  <p style={{ fontSize: '0.95rem', fontWeight: 600 }}>No quizzes played yet.</p>
-                  <button onClick={() => navigate('/quiz')} className="btn btn-primary" style={{ marginTop: '1rem', padding: '0.5rem 1.25rem', fontSize: '0.85rem' }}>
-                    Play your first quiz
-                  </button>
-                </div>
+                <EmptyState onPlay={() => navigate('/quiz')} />
               )}
             </div>
           </div>
 
-          {/* Brain Booster */}
-          <div className="card" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
-            <h3 style={{ fontSize: '1.3rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: '#ffffff' }}>
-              🧠 Brain Booster
-            </h3>
-            <p style={{ color: '#888888', lineHeight: 1.6, marginBottom: '1.5rem', fontSize: '0.95rem', fontWeight: 500 }}>
-              General Knowledge training expands crystallized brain memory, sharpening vocabulary retention and analytical connections across wide academic categories!
+          <div className="card">
+            <div className="eyebrow">Daily focus</div>
+            <h2 style={{ marginTop: '0.5rem', fontSize: '1.55rem' }}>Finish 3 quiz rounds</h2>
+            <p style={{ margin: '0.8rem 0 1.4rem', color: 'var(--text-secondary)' }}>
+              A small streak target keeps the app useful without turning practice into homework.
             </p>
-            <div style={{ padding: '1.25rem', background: '#1a1a1a', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.06)' }}>
-              <span style={{ fontWeight: 800, fontSize: '0.8rem', color: '#888888', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Daily Trivia Quest</span>
-              <div style={{ fontWeight: 800, marginTop: '0.25rem', marginBottom: '0.75rem', fontSize: '1.05rem', color: '#ffffff' }}>Finish 3 trivia quiz rounds</div>
-              <div style={{ height: '8px', background: '#222222', borderRadius: '4px', overflow: 'hidden' }}>
-                <div style={{ width: `${Math.min((stats.gamesPlayed / 3) * 100, 100)}%`, height: '100%', background: '#ffffff', borderRadius: '4px' }} />
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginTop: '0.5rem', color: '#666666', fontWeight: 600 }}>
-                <span>{Math.min(stats.gamesPlayed, 3)} of 3 rounds done</span>
-                <span>{stats.gamesPlayed >= 3 ? '100%' : `${Math.round((stats.gamesPlayed / 3) * 100)}%`}</span>
-              </div>
+            <div style={{ height: 10, overflow: 'hidden', borderRadius: 999, background: 'rgba(255,255,255,0.08)' }}>
+              <div
+                style={{
+                  width: `${Math.min((stats.gamesPlayed / 3) * 100, 100)}%`,
+                  height: '100%',
+                  borderRadius: 999,
+                  background: 'linear-gradient(90deg, var(--accent-primary), var(--accent-tertiary))',
+                }}
+              />
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.7rem', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 700 }}>
+              <span>{Math.min(stats.gamesPlayed, 3)} of 3 complete</span>
+              <span>{stats.gamesPlayed >= 3 ? '100%' : `${Math.round((stats.gamesPlayed / 3) * 100)}%`}</span>
             </div>
           </div>
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 };
 
 const StatCard = ({ icon, label, value, desc }) => (
-  <motion.div whileHover={{ y: -4 }} className="card stat-card">
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+  <Motion.div whileHover={{ y: -3 }} className="card stat-card">
+    <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--accent-primary)' }}>
       <span className="stat-label">{label}</span>
       {icon}
     </div>
     <span className="stat-value">{value}</span>
-    <span style={{ fontSize: '0.75rem', color: '#666666', fontWeight: 600 }}>{desc}</span>
-  </motion.div>
+    <span style={{ color: 'var(--text-muted)', fontSize: '0.84rem', fontWeight: 650 }}>{desc}</span>
+  </Motion.div>
+);
+
+const EmptyState = ({ onPlay }) => (
+  <div style={{ display: 'grid', placeItems: 'center', minHeight: 220, textAlign: 'center' }}>
+    <div>
+      <Zap size={38} color="var(--accent-primary)" style={{ opacity: 0.8 }} />
+      <p style={{ margin: '0.75rem 0 1rem', color: 'var(--text-secondary)', fontWeight: 700 }}>No quiz sessions yet.</p>
+      <button className="btn btn-primary" onClick={onPlay}>Play your first quiz</button>
+    </div>
+  </div>
 );
 
 export default Dashboard;

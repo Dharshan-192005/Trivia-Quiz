@@ -205,3 +205,96 @@ export function getRandomQuestions(count = 10) {
   const shuffled = [...fallbackQuestions].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count);
 }
+
+const topicFallbackPools = [
+  {
+    match: ['marvel cinematic universe', 'mcu', 'marvel films', 'marvel movies', 'marvel'],
+    questions: [
+      {
+        question: "In the Marvel Cinematic Universe, what is the name of Tony Stark's AI assistant before FRIDAY?",
+        correct: "JARVIS",
+        options: ["EDITH", "JARVIS", "ULTRON", "KAREN"],
+        explanation: "JARVIS is Tony Stark's original AI assistant before FRIDAY is introduced."
+      },
+      {
+        question: "Which Infinity Stone is hidden inside Loki's scepter in the MCU?",
+        correct: "Mind Stone",
+        options: ["Space Stone", "Mind Stone", "Reality Stone", "Power Stone"],
+        explanation: "The Mind Stone is revealed to be inside Loki's scepter."
+      },
+      {
+        question: "What metal is Captain America's shield primarily made from in the MCU?",
+        correct: "Vibranium",
+        options: ["Adamantium", "Vibranium", "Titanium", "Uru"],
+        explanation: "Captain America's shield is made from vibranium from Wakanda."
+      },
+      {
+        question: "Which movie first brings the Avengers together as a team?",
+        correct: "The Avengers",
+        options: ["Iron Man 2", "Captain America: The First Avenger", "The Avengers", "Thor"],
+        explanation: "The Avengers is the first MCU film where the core team assembles."
+      },
+      {
+        question: "Who is revealed as Peter Quill's father in Guardians of the Galaxy Vol. 2?",
+        correct: "Ego",
+        options: ["Yondu", "Ego", "Thanos", "The Collector"],
+        explanation: "Ego the Living Planet is revealed as Peter Quill's biological father."
+      }
+    ]
+  },
+  {
+    match: ['javascript programming', 'javascript', 'js programming', 'js'],
+    questions: [
+      {
+        question: "Which keyword declares a block-scoped variable in JavaScript?",
+        correct: "let",
+        options: ["var", "let", "define", "global"],
+        explanation: "The let keyword declares a variable scoped to the nearest block."
+      },
+      {
+        question: "What does the Array.prototype.map() method return?",
+        correct: "A new array",
+        options: ["The original array", "A new array", "A boolean", "A single number"],
+        explanation: "map() creates and returns a new array with transformed values."
+      },
+      {
+        question: "Which value is returned by typeof null in JavaScript?",
+        correct: "object",
+        options: ["null", "undefined", "object", "boolean"],
+        explanation: "typeof null returns object because of a long-standing JavaScript behavior."
+      },
+      {
+        question: "Which syntax creates an arrow function?",
+        correct: "() => {}",
+        options: ["function => {}", "() => {}", "func() {}", "lambda () {}"],
+        explanation: "Arrow functions use the => syntax."
+      },
+      {
+        question: "What is a Promise used for in JavaScript?",
+        correct: "Handling asynchronous results",
+        options: ["Styling HTML", "Handling asynchronous results", "Creating database tables", "Compiling CSS"],
+        explanation: "Promises represent asynchronous work that may resolve or reject later."
+      },
+      {
+        question: "Which operator checks both value and type equality?",
+        correct: "===",
+        options: ["==", "===", "=", "!="],
+        explanation: "The strict equality operator === compares both type and value."
+      }
+    ]
+  }
+];
+
+function normalizeTopic(topic = '') {
+  return topic.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+}
+
+export function getTopicFallbackQuestions(topic, count = 10) {
+  const normalized = normalizeTopic(topic);
+  const pool = topicFallbackPools.find(entry =>
+    entry.match.some(alias => normalized.includes(normalizeTopic(alias)))
+  );
+
+  if (!pool) return null;
+  return [...pool.questions].sort(() => Math.random() - 0.5).slice(0, count);
+}

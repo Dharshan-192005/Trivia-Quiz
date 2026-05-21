@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../utils/api';
-import { motion } from 'framer-motion';
 import bgImage from '../assets/bg-mountain.png';
 
 const Login = ({ onLogin }) => {
@@ -35,11 +34,11 @@ const Login = ({ onLogin }) => {
         style={{ backgroundImage: `url(${bgImage})` }}
       >
         <div className="auth-sidebar-content animate-slide-up delay-100">
-          <h1 style={{ color: 'white', background: 'none', WebkitTextFillColor: 'white', fontSize: '3.5rem', lineHeight: 1.1, marginBottom: '20px' }}>
-            Welcome<br />Back
+          <h1 style={{ color: 'white', background: 'none', WebkitTextFillColor: 'white', fontSize: 'clamp(2.7rem, 6vw, 5rem)', lineHeight: 1.02, marginBottom: '20px' }}>
+            Welcome back
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '1rem', lineHeight: 1.6 }}>
-            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using
+            Pick up where you left off, keep your score moving, and return to your next round in seconds.
           </p>
         </div>
       </div>
@@ -49,7 +48,7 @@ const Login = ({ onLogin }) => {
         <div className="auth-form-wrapper animate-slide-up delay-200">
           
           <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-            <h2 style={{ fontSize: '2rem', fontWeight: 800, color: '#0f172a' }}>Sign in</h2>
+            <h2 style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--text-primary)' }}>Sign in</h2>
           </div>
 
           {error && (
@@ -102,7 +101,7 @@ const Login = ({ onLogin }) => {
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <input type="checkbox" id="remember" style={{ cursor: 'pointer', width: '16px', height: '16px' }} />
-              <label htmlFor="remember" style={{ fontSize: '0.85rem', color: '#4b5563', cursor: 'pointer', userSelect: 'none' }}>
+              <label htmlFor="remember" style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', cursor: 'pointer', userSelect: 'none' }}>
                 Remember Me
               </label>
             </div>
@@ -117,12 +116,12 @@ const Login = ({ onLogin }) => {
             </button>
 
             <div style={{ textAlign: 'center', marginTop: '8px' }}>
-              <a href="#" style={{ color: '#4b5563', fontSize: '0.85rem', textDecoration: 'none' }} onClick={(e) => e.preventDefault()}>
+              <a href="#" style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', textDecoration: 'none' }} onClick={(e) => e.preventDefault()}>
                 Lost your password?
               </a>
             </div>
 
-            <div style={{ textAlign: 'center', marginTop: '16px', fontSize: '0.85rem', color: '#6b7280' }}>
+            <div style={{ textAlign: 'center', marginTop: '16px', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
               Don't have an account?{' '}
               <Link 
                 to="/register" 
@@ -133,9 +132,9 @@ const Login = ({ onLogin }) => {
             </div>
           </form>
 
-          <div style={{ textAlign: 'center', marginTop: '40px', fontSize: '0.75rem', color: '#9ca3af' }}>
+          <div style={{ textAlign: 'center', marginTop: '40px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
             By clicking on "Sign in now" you agree to<br/>
-            <a href="#" style={{ color: '#6b7280', textDecoration: 'none' }} onClick={(e) => e.preventDefault()}>Terms of Service</a> | <a href="#" style={{ color: '#6b7280', textDecoration: 'none' }} onClick={(e) => e.preventDefault()}>Privacy Policy</a>
+            <a href="#" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} onClick={(e) => e.preventDefault()}>Terms of Service</a> | <a href="#" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} onClick={(e) => e.preventDefault()}>Privacy Policy</a>
           </div>
 
         </div>
