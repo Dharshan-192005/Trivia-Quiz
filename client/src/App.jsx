@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import History from './pages/History';
+//sample checker
 
 function AppContent({ user, onAuth, onLogout }) {
   const location = useLocation();

@@ -18,3 +18,4 @@ This project is a full‑stack MERN application that provides a trivia quiz expe
 - **Database**: MongoDB stores question data and user scores, accessed via Mongoose models.
 
 Each module is located in the `client/src` (frontend) and `server` (backend) directories, making the codebase easy to navigate and extend.
+
